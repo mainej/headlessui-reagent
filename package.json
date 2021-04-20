@@ -1,0 +1,24 @@
+{
+  "name": "headlessui-reagent",
+  "version": "1.0.0",
+  "description": "Adapts headlessui for use with Reagent",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mainej/headlessui-reagent.git"
+  },
+  "keywords": [
+    "headlessui",
+    "reagent",
+    "tailwindcss",
+    "tailwind"
+  ],
+  "author": "Jacob Maine",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mainej/headlessui-reagent/issues"
+  },
+  "homepage": "https://github.com/mainej/headlessui-reagent#readme",
+  "devDependencies": {
+    "@headlessui/react": "^1.0.0"
+  }
+}
