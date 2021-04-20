@@ -2,29 +2,39 @@
 
 TODO: establish contributing guidelines here.
 
-## Deploy
+## Build
 
 Build a deployable jar of this library:
 
-    $ clojure -X:jar
-
-This will update the generated `pom.xml` file to keep the dependencies synchronized with
-your `deps.edn` file. You can update the version (and SCM tag) information in the `pom.xml` using the
-`:version` argument:
-
     $ clojure -X:jar :version '"1.2.3"'
 
-Install it locally (requires the `pom.xml` file):
+This will also update the generated `pom.xml` file with the version (and SCM
+tag) and keep the dependencies synchronized with the `deps.edn` file.
+
+(Optional) Install it locally (requires the `pom.xml` file):
 
     $ clojure -X:install
+    
+## Deploy
 
-Deploy it to Clojars -- needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environment
+Confirm new version is present in pom.xml.
+
+Confirm CHANGELOG.md has been updated for new version.
+
+Change version in package.json.
+
+Confirm that everything is committed.
+
+Tag git head with version.
+
+Deploy to Clojars -- needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environment
 variables (requires the `pom.xml` file):
 
     $ clojure -X:deploy
 
-Your library will be deployed to com.github.mainej/headlessui-reagent on clojars.org by default.
+The library will be deployed to com.github.mainej/headlessui-reagent on clojars.org.
 
-If you don't plan to install/deploy the library, you can remove the
-`pom.xml` file but you will also need to remove `:sync-pom true` from the `deps.edn`
-file (in the `:exec-args` for `depstar`).
+Push to github.
+
+TODO: combine build and deploy into scripts, which include automated checks that
+version is present everywhere it needs to be.
