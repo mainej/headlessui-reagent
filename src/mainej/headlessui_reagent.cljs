@@ -1,13 +1,12 @@
 (ns mainej.headlessui-reagent
-  (:require [mainej.headlessui-reagent.disclosure :as disclosure]
-            [mainej.headlessui-reagent.transition :as transition]
-            [mainej.headlessui-reagent.focus-trap :as focus-trap]))
+  (:require ["@headlessui/react" :as ui]
+            [mainej.headlessui-reagent.utils :as utils]))
 
-(def disclosure disclosure/disclosure)
-(def disclosure-panel disclosure/disclosure-panel)
-(def disclosure-button disclosure/disclosure-button)
+(def disclosure (utils/headlessui->reagent ui/Disclosure))
+(def disclosure-button (utils/headlessui->reagent ui/Disclosure.Button))
+(def disclosure-panel (utils/headlessui->reagent ui/Disclosure.Panel))
 
-(def transition transition/transition)
-(def transition-child transition/transition-child)
+(defn transition [& args] (into [:> ui/Transition] args))
+(defn transition-child [& args] (into [:> ui/Transition.Child] args))
 
-(def focus-trap focus-trap/focus-trap)
+(defn focus-trap [& args] (into [:> ui/FocusTrap] args))

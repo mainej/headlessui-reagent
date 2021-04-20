@@ -67,13 +67,6 @@ Or, closest to the headlessui style, as:
   [:li "This too."]]
 ```
 
-If you don't want to require every headlessui component, each group of components has its own namespace.
-
-```diff
--(require '[mainej.headlessui-reagent :as ui])
-+(require '[mainej.headlessui-reagent.disclosure :as ui])
-```
-
 ## License
 
 Copyright © 2021 Jacob Maine
