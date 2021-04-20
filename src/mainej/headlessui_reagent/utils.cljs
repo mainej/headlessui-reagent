@@ -1,10 +1,30 @@
 (ns mainej.headlessui-reagent.utils
-  (:require [reagent.core :as r]))
+  (:require [clojure.string :as string]
+            [reagent.core :as r]
+            [clojure.set :as set]))
 
 (defn props-and-children [args]
   (if (or (nil? (first args)) (map? (first args)))
     [(first args) (rest args)]
     [{} args]))
+
+(defn dashify [kw]
+  (->> (string/split (name kw) #"(?=[A-Z])")
+       (map string/lower-case)
+       (string/join "-")
+       keyword))
+
+(defn pass-through-props
+  "We need props appropriate for a reagent component. We receive React style
+  props that have been shallowly converted to a CLJ hashmap. Finishes the
+  conversion to reagent props."
+  [props]
+  (set/rename-keys (reduce (fn [result [k v]]
+                             ;; Is js->clj safe?
+                             (assoc result (dashify k) (js->clj v)))
+                           {}
+                           (dissoc props :children))
+                   {:class-name :class}))
 
 (defn headlessui->reagent
   "Convert a @headlessui/react component into a reagent component."
@@ -18,8 +38,8 @@
                          (not (string? (:as props))))
                   (update props :as (fn [as]
                                       (reagent.core/reactify-component
-                                       (fn [{:keys [children]}]
-                                         [as (dissoc props :as) children]))))
+                                       (fn [{:keys [children] :as inner-props}]
+                                         [as (pass-through-props inner-props) children]))))
                   props)
 
           children (if (and (= 1 (count children))

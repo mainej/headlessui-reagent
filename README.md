@@ -51,6 +51,9 @@ children:
   [:li "This too."]]
 ```
 
+The props will contain ARIA attributes, event handlers and other attributes
+necessary for the :as component to work correctly, so you must use them.
+
 The above example is so simple it would be more easily written as:
 
 ```clojure

@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file. This
 change log follows the conventions of
 [keepachangelog.com](http://keepachangelog.com/).
 
+## Unreleased
+### Added
+
+### Changed
+- Fixed pass through of props to :as component. Now all aria attributes, event
+  handlers, etc. are passed through.
+
 ## [0.1.2] - 2021-04-19
 ### Changed
 - Fixed clash between ns and var by removing smaller namespaces. May need to
