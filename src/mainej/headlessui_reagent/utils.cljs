@@ -32,15 +32,23 @@
   (fn [& args]
     (let [[props children] (props-and-children args)
 
-          props (if (and (map? props)
-                         (contains? props :as)
+          props (if-not (map? props)
+                  props
+                  (cond-> props
+                    (and (contains? props :as)
                          ;; this interop code would handle strings, but better to avoid it
                          (not (string? (:as props))))
-                  (update props :as (fn [as]
-                                      (reagent.core/reactify-component
-                                       (fn [{:keys [children] :as inner-props}]
-                                         [as (pass-through-props inner-props) children]))))
-                  props)
+                    (update :as (fn [as]
+                                  (r/reactify-component
+                                   (fn [{:keys [children] :as inner-props}]
+                                     [as (pass-through-props inner-props) children]))))
+
+                    (and (contains? props :class)
+                         (fn? (:class props)))
+                    (update :class (fn [f]
+                                     (fn [js-slot]
+                                       (r/class-names (f (js->clj js-slot :keywordize-keys true))))))))
+
 
           children (if (and (= 1 (count children))
                             (fn? (first children)))

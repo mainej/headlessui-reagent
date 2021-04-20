@@ -5,6 +5,9 @@ change log follows the conventions of
 
 ## Unreleased
 ### Added
+- Support `:class` as a function. The function will receive the render props.
+  Can be useful if the appearance of the component is the only thing that
+  depends on the render props.
 
 ### Changed
 - Fixed pass through of props to :as component. Now all aria attributes, event
@@ -13,8 +16,8 @@ change log follows the conventions of
 ## [0.1.2] - 2021-04-19
 ### Changed
 - Fixed clash between ns and var by removing smaller namespaces. May need to
-    revisit, depending on whether the closure compiler can efficiently shake
-    the unused components.
+  revisit, depending on whether the closure compiler can efficiently shake the
+  unused components.
 
 ## [0.1.1] - 2021-04-19
 ### Changed

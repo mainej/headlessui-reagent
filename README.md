@@ -70,6 +70,16 @@ Or, closest to the headlessui style, as:
   [:li "This too."]]
 ```
 
+The `:class` prop can be a function which will receive render props.
+
+```clojure
+[ui/menu-item {:as    :a.block
+               :href  "#"
+               :class (fn [{:keys [active]}]
+                        [:border (when active :bg-blue-500)])}
+  "Home page"]
+```
+
 ## License
 
 Copyright © 2021 Jacob Maine
