@@ -2,6 +2,11 @@
   (:require ["@headlessui/react" :as ui]
             [mainej.headlessui-reagent.utils :as utils]))
 
+(def menu (utils/headlessui->reagent ui/Menu))
+(def menu-button (utils/headlessui->reagent ui/Menu.Button))
+(def menu-items (utils/headlessui->reagent ui/Menu.Items))
+(def menu-item (utils/headlessui->reagent ui/Menu.Item))
+
 (def disclosure (utils/headlessui->reagent ui/Disclosure))
 (def disclosure-button (utils/headlessui->reagent ui/Disclosure.Button))
 (def disclosure-panel (utils/headlessui->reagent ui/Disclosure.Panel))

@@ -19,11 +19,16 @@ Usage follows the headlessui API. For example, to use a
     [:p "Some explanation."]]]
 ```
 
+### Styling the active item
+
 As with `@headlessui/react`, if the reagent component is given a single
 function as a child, the function is called with the headlessui component's
 ["render props"][render-props] (e.g. :open for a Disclosure). The return
 value of the function, which should be a single (hiccup-style) component, will
 be rendered.
+
+This can be used to conditionally apply markup or styles based on the
+component's state.
 
 ```clojure
 [ui/disclosure
@@ -32,6 +37,17 @@ be rendered.
     [ui/disclosure-button (if open "Hide" "Show")]
     [ui/disclosure-panel ,,,]])]
 ```
+
+If you only need to control the classes based on the active state, the `:class`
+prop can be a function which will receive the render props:
+
+```clojure
+[ui/disclosure-button {:class (fn [{:keys [open]}]
+                                [:border (when open :bg-blue-200)])}
+ "Show more"]
+```
+
+### Rendering a different element for a component
 
 Many headlessui components accept an `"as"` prop, which controls how they are
 rendered into the dom. If the corresponding reagent component is given an `:as`
@@ -70,14 +86,48 @@ Or, closest to the headlessui style, as:
   [:li "This too."]]
 ```
 
-The `:class` prop can be a function which will receive render props.
+## Known bugs
+
+There are some known limitations to the interop between reagent and headlessui.
+Bug fixes welcome!
+
+### Reagent components and render props
+
+When using the render props style (passing a function as the only argument to a
+component), if headlessui needs to pass props (ARIA attributes, event handlers,
+etc.) to the returned component, which it often does, the component must be a
+hiccup keyword, not a reagent component function:
 
 ```clojure
-[ui/menu-item {:as    :a.block
-               :href  "#"
-               :class (fn [{:keys [active]}]
-                        [:border (when active :bg-blue-500)])}
-  "Home page"]
+;; DON'T do this
+(defn my-component [{:keys [active]} copy]
+  [:a.block {:href "#" :class (when active :bg-blue-500)} copy])
+
+[ui/menu-item
+  (fn [props]
+    [my-component props "A menu item"])]
+
+;; Instead, do this
+[ui/menu-item
+  (fn [{:keys [active]}]
+    [:a.block {:href "#" :class (when active :bg-blue-500)} "A menu item"])]
+```
+
+This can be annoying, but is necessary because headlessui can't seem to forward
+props to reagent component function elements in the same way that it can for
+hiccup keywords.
+
+### Rendering children directly
+
+In some cases where headlessui would usually render a wrapper element, it
+permits rendering the children directly instead, by passing `React.Fragment` as
+`"as"`. This is not supported because headlessui and reagent fail to convey
+props between them.
+
+```clojure
+;; DON'T do this
+[ui/menu-button {:as :<>}
+  [:button.block {:type "button"} "Open"]]
 ```
 
 ## License

@@ -5,13 +5,15 @@ change log follows the conventions of
 
 ## Unreleased
 ### Added
+- Reagent interop for Menu
 - Support `:class` as a function. The function will receive the render props.
   Can be useful if the appearance of the component is the only thing that
   depends on the render props.
 
 ### Changed
 - Fixed pass through of props to :as component. Now all aria attributes, event
-  handlers, etc. are passed through.
+  handlers, etc. are passed through. Throw an exception when we suspect that
+  this will not happen correctly.
 
 ## [0.1.2] - 2021-04-19
 ### Changed

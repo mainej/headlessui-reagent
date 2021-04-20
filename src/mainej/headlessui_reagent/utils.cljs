@@ -49,11 +49,18 @@
                                      (fn [js-slot]
                                        (r/class-names (f (js->clj js-slot :keywordize-keys true))))))))
 
-
           children (if (and (= 1 (count children))
                             (fn? (first children)))
                      (let [f (first children)]
-                       [(fn [args]
-                          (r/as-element [f (js->clj args :keywordize-keys true)]))])
+                       [(fn [js-slot]
+                          (let [[comp :as comp-and-args] (f (js->clj js-slot :keywordize-keys true))]
+                            (assert (or
+                                     ;; we are certain a different component will receive the props
+                                     (and (map props)
+                                          (contains? props :as))
+                                     ;; we are rendering a hiccup keyword which, for whatever reagent-internal reason, can receive props
+                                     (keyword? comp))
+                                    "headlessui can't pass props to reagent components; suggestion: return a hiccup keyword-style component")
+                            (r/as-element comp-and-args)))])
                      children)]
       (into [:> component props] children))))
