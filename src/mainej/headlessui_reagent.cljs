@@ -10,4 +10,4 @@
 (def transition transition/transition)
 (def transition-child transition/transition-child)
 
-(def focus-trap focus-trap focus-trap/focus-trap)
+(def focus-trap focus-trap/focus-trap)
