@@ -2,6 +2,13 @@
 
 Provides reagent wrappers for [@headlessui/react][headlessui] components.
 
+## Installation
+
+Install as a [Clojure dependency][clojars]. Assuming you run your project with
+shadow-cljs, `@headlessui/react` will be installed as a JS dependency.
+Otherwise, you may have to `npm install` it yourself. `headlessui-reagent` was
+built with `@headlessui/react` version `1.0.0` but may work with later versions.
+
 ## Usage
 
 Usage follows the headlessui API. For example, to use a
@@ -200,3 +207,4 @@ Distributed under the MIT License.
 [render-props]: https://reactjs.org/docs/render-props.html
 [headlessui]: https://headlessui.dev/
 [headlessui-disclosure]: https://headlessui.dev/react/disclosure
+[clojars]: https://clojars.org/com.github.mainej/headlessui-reagent
