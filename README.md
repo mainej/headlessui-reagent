@@ -8,7 +8,7 @@ Usage follows the headlessui API. For example, to use a
 [Disclosure][headlessui-disclosure] in reagent:
 
 ```clojure
-(require '[mainej.headlessui-reagent :as ui])
+(require '[headlessui-reagent.core :as ui])
 
 [ui/disclosure
   [ui/disclosure-button {:class [:w-full :px-4 :py-2 :text-sm :font-medium :text-purple-900 :bg-purple-100 :rounded-lg]}
