@@ -9,9 +9,7 @@ Usage follows the headlessui API. For example, to use a
 
 ```clojure
 (require '[mainej.headlessui-reagent :as ui])
-```
 
-```clojure
 [ui/disclosure
   [ui/disclosure-button {:class [:w-full :px-4 :py-2 :text-sm :font-medium :text-purple-900 :bg-purple-100 :rounded-lg]}
     "Explain"]

@@ -34,7 +34,9 @@ variables (requires the `pom.xml` file):
 
 The library will be deployed to com.github.mainej/headlessui-reagent on clojars.org.
 
-Push to github.
+Push to github, with tags:
+
+    $ git push --tags
 
 TODO: combine build and deploy into scripts, which include automated checks that
 version is present everywhere it needs to be.
