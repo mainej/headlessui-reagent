@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.mainej</groupId>
   <artifactId>headlessui-reagent</artifactId>
-  <version>0.1.2</version>
+  <version>0.1.3</version>
   <name>com.github.mainej/headlessui-reagent</name>
   <description>reagent wrappers for @headlessui/react components</description>
   <url>https://github.com/mainej/headlessui-reagent</url>
@@ -22,7 +22,7 @@
     <url>https://github.com/mainej/headlessui-reagent</url>
     <connection>scm:git:git://github.com/mainej/headlessui-reagent.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/mainej/headlessui-reagent.git</developerConnection>
-    <tag>v0.1.2</tag>
+    <tag>v0.1.3</tag>
   </scm>
   <dependencies>
     <dependency>
