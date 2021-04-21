@@ -27,6 +27,12 @@
 (def dialog-title (utils/headlessui->reagent ui/Dialog.Title))
 (def dialog-description (utils/headlessui->reagent ui/Dialog.Description))
 
+(def popover (utils/headlessui->reagent ui/Popover))
+(def popover-overlay (utils/headlessui->reagent ui/Popover.Overlay))
+(def popover-button (utils/headlessui->reagent ui/Popover.Button))
+(def popover-panel (utils/headlessui->reagent ui/Popover.Panel))
+(def popover-group (utils/headlessui->reagent ui/Popover.Group))
+
 (defn transition [& args] (into [:> ui/Transition] args))
 (defn transition-child [& args] (into [:> ui/Transition.Child] args))
 

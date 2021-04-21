@@ -5,7 +5,7 @@ change log follows the conventions of
 
 ## [Unreleased]
 ### Added
-- Reagent interop for Menu, Switch, Dialog
+- Reagent interop for Menu, Switch, Dialog, Popover
 - Reagent interop for Listbox, and recommendations for how to handle `:value`
   and `:on-change`.
 - Support `:class` as a function. The function will receive the render props.
