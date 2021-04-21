@@ -6,8 +6,8 @@ change log follows the conventions of
 ## [Unreleased]
 ### Added
 - Reagent interop for Menu, Switch, Dialog, Popover
-- Reagent interop for Listbox, and recommendations for how to handle `:value`
-  and `:on-change`.
+- Reagent interop for Listbox and RadioGroup, and recommendations for how to
+  handle `:value` and `:on-change`.
 - Support `:class` as a function. The function will receive the render props.
   Can be useful if the appearance of the component is the only thing that
   depends on the render props.
