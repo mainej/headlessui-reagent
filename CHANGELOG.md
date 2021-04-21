@@ -4,6 +4,8 @@ change log follows the conventions of
 [keepachangelog.com](http://keepachangelog.com/).
 
 ## [Unreleased]
+
+## [1.0.0] - 2021-04-20
 ### Changed
 - Renamed namespaces:
   `mainej.headlessui-reagent` -> `headlessui-reagent.core`
@@ -37,7 +39,8 @@ change log follows the conventions of
 ### Added
 - Reagent interop with @headlessui/react for Disclosure, Transition and FocusTrap
 
-[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v0.1.3...main
+[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v1.0.0...main
+[1.0.0]: https://github.com/mainej/headlessui-reagent/compare/v0.1.3...v1.0.0
 [0.1.3]: https://github.com/mainej/headlessui-reagent/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/mainej/headlessui-reagent/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/mainej/headlessui-reagent/compare/v0.1.0...v0.1.1
