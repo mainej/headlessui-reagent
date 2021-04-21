@@ -4,6 +4,10 @@ change log follows the conventions of
 [keepachangelog.com](http://keepachangelog.com/).
 
 ## [Unreleased]
+### Changed
+- Renamed namespaces:
+  `mainej.headlessui-reagent` -> `headlessui-reagent.core`
+  `mainej.headlessui-reagent.*` -> `headlessui-reagent.*`
 
 ## [0.1.3] - 2021-04-20
 ### Added

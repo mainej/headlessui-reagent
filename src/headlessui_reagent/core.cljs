@@ -1,6 +1,6 @@
-(ns mainej.headlessui-reagent
+(ns headlessui-reagent.core
   (:require ["@headlessui/react" :as ui]
-            [mainej.headlessui-reagent.utils :as utils]))
+            [headlessui-reagent.utils :as utils]))
 
 (def menu (utils/headlessui->reagent ui/Menu))
 (def menu-button (utils/headlessui->reagent ui/Menu.Button))

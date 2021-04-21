@@ -1,4 +1,4 @@
-(ns mainej.headlessui-reagent.utils
+(ns headlessui-reagent.utils
   (:require [clojure.string :as string]
             [reagent.core :as r]
             [clojure.set :as set]))
