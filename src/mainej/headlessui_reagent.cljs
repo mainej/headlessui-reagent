@@ -13,6 +13,11 @@
 (def listbox-options (utils/headlessui->reagent ui/Listbox.Options))
 (def listbox-option (utils/headlessui->reagent ui/Listbox.Option))
 
+(def switch (utils/headlessui->reagent ui/Switch))
+(def switch-label (utils/headlessui->reagent ui/Switch.Label))
+(def switch-description (utils/headlessui->reagent ui/Switch.Description))
+(def switch-group (utils/headlessui->reagent ui/Switch.Group))
+
 (def disclosure (utils/headlessui->reagent ui/Disclosure))
 (def disclosure-button (utils/headlessui->reagent ui/Disclosure.Button))
 (def disclosure-panel (utils/headlessui->reagent ui/Disclosure.Panel))

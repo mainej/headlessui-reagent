@@ -3,11 +3,12 @@ All notable changes to this project will be documented in this file. This
 change log follows the conventions of
 [keepachangelog.com](http://keepachangelog.com/).
 
-## Unreleased
+## [Unreleased]
 ### Added
 - Reagent interop for Menu
 - Reagent interop for Listbox, and recommendations for how to handle `:value`
   and `:on-change`.
+- Reagent interop for Switch
 - Support `:class` as a function. The function will receive the render props.
   Can be useful if the appearance of the component is the only thing that
   depends on the render props.
@@ -31,5 +32,6 @@ change log follows the conventions of
 ### Added
 - Reagent interop with @headlessui/react for Disclosure, Transition and FocusTrap
 
+[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v0.1.2...main
 [0.1.2]: https://github.com/mainej/headlessui-reagent/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/mainej/headlessui-reagent/compare/v0.1.0...v0.1.1
