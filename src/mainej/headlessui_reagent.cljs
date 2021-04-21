@@ -22,6 +22,11 @@
 (def disclosure-button (utils/headlessui->reagent ui/Disclosure.Button))
 (def disclosure-panel (utils/headlessui->reagent ui/Disclosure.Panel))
 
+(def dialog (utils/headlessui->reagent ui/Dialog))
+(def dialog-overlay (utils/headlessui->reagent ui/Dialog.Overlay))
+(def dialog-title (utils/headlessui->reagent ui/Dialog.Title))
+(def dialog-description (utils/headlessui->reagent ui/Dialog.Description))
+
 (defn transition [& args] (into [:> ui/Transition] args))
 (defn transition-child [& args] (into [:> ui/Transition.Child] args))
 
