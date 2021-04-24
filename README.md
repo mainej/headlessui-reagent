@@ -26,11 +26,10 @@ Usage follows the headlessui API. For example, to use a
 
 ### Styling the active item
 
-As with `@headlessui/react`, if the reagent component is given a single
-function as a child, the function is called with the headlessui component's
-["render props"][render-props] (e.g. :open for a Disclosure). The return
-value of the function, which should be a single (hiccup-style) component, will
-be rendered.
+As with `@headlessui/react`, if the reagent component is given a single function
+as a child, the function is called with the headlessui component's ["render
+props"][render-props] (e.g. `:open` for a Disclosure). The return value of the
+function, which should be a single (hiccup-style) component, will be rendered.
 
 This can be used to conditionally apply markup or styles based on the
 component's state.
@@ -106,52 +105,35 @@ objects. The library does not provide automatic conversion between JS and CLJS.
 This begs the question, how do we use these components when the items are
 complex CLJS objects? The trick is to ensure that the items each have some
 unique identifier that can be cast to a number or string (numbers and strings
-are preferred because they are primitives in both CLJS and JS). This unique
-identifier is used as the item's `:value`. When a new item is selected,
+are preferred because they are primitives in both CLJS and JS). We use this
+unique identifier as the item's `:value`. When a new item is selected,
 `:on-change` will be called with the primitive identifier. At that point, we are
 back in Clojure code, so we can convert the identifier back into the full item.
 
-In this example, pay attention to how the `:id` is used as the `:value` in the
-`ui/listbox` and `ui/listbox-option` and how it is converted back into a full
-person in `:on-change`.
+In this example, pay attention to how the `:id` is used as the `:value` in both
+the `ui/listbox` and `ui/listbox-option` and how it is converted back into a
+full person in `:on-change`.
 
 ```clojure
-(reagent.core/with-let [people [{ :id 1, :name "Wade Cooper" }
-                                { :id 2, :name "Arlene Mccoy" }
-                                { :id 3, :name "Devon Webb" }
-                                { :id 4, :name "Tom Cook" }
-                                { :id 5, :name "Tanya Fox" }
-                                { :id 6, :name "Hellen Schmidt" }]
+(reagent.core/with-let [people [{:id 1, :name "Wade Cooper"}
+                                {:id 2, :name "Arlene Mccoy"}
+                                {:id 3, :name "Devon Webb"}
+                                {:id 4, :name "Tom Cook"}
+                                {:id 5, :name "Tanya Fox"}
+                                {:id 6, :name "Hellen Schmidt"}]
                         person-by-id (zipmap (map :id people) people)
                         !selected-person (reagent.core/atom (first people))]
-  (let [person @!selected-person]
-    [:div.w-72
-     [ui/listbox
-      {:on-change #(reset! !selected-person (get person-by-id %1)), :value (:id person)}
-      (fn [{:keys [open]}]
-        [:div.relative.mt-1
-         [ui/listbox-button {:class [:relative :w-full :py-2 :pl-3 :pr-10 :text-left :bg-white :rounded-lg :shadow-md :cursor-default :focus:outline-none :focus-visible:ring-2 :focus-visible:ring-opacity-75 :focus-visible:ring-white :focus-visible:ring-offset-orange-300 :focus-visible:ring-offset-2 :focus-visible:border-indigo-500 :sm:text-sm]}
-          [:span.block.truncate (:name person)]]
-         [ui/transition
-          {:leave-to   "opacity-0",
-           :leave-from "opacity-100",
-           :leave      "transition ease-in duration-100",
-           :show       open}
-          [ui/listbox-options
-           {:class [:absolute :w-full :py-1 :mt-1 :overflow-auto :text-base :bg-white :rounded-md :shadow-lg :max-h-60 :ring-1 :ring-black :ring-opacity-5 :focus:outline-none :sm:text-sm]}
-           (for [person people]
-             [ui/listbox-option
-              {:as    :li.cursor-default.select-none.relative.py-2.pl-10.pr-4
-               :class #(if (:active %1) [:text-yellow-900 :bg-yellow-100] :text-gray-900)
-               :key   (:id person)
-               :value (:id person)}
-              (fn [{:keys [selected]}]
-                [:<>
-                 [:span.block.truncate {:class (if selected :font-medium :font-normal)}
-                  (:name person)]
-                 (when selected
-                   [:span.absolute.inset-y-0.left-0.flex.items-center.pl-3.text-yellow-600
-                    [svg.solid/x {:aria-hidden "true"}]])])])]]])]]))
+  (let [selected-person @!selected-person]
+    [ui/listbox
+     {:value     (:id selected-person)
+      :on-change #(reset! !selected-person (get person-by-id %1))}
+     [ui/listbox-button (:name selected-person)]
+     [ui/listbox-options
+      (for [person people]
+        ^{:key (:id person)}
+        [ui/listbox-option
+         {:value (:id person)}
+         (:name person)])]]))
 ```
 
 ## Known bugs
