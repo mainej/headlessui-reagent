@@ -2,47 +2,27 @@
 
 TODO: establish contributing guidelines here.
 
-## Build
-
-Build a deployable jar of this library:
-
-    $ clojure -X:jar :version '"X.Y.Z"'
-
-This will also update the generated `pom.xml` file with the version (and SCM
-tag) and keep the dependencies synchronized with the `deps.edn` file.
-
-(Optional) Install it locally (requires the `pom.xml` file):
-
-    $ clojure -X:install
-    
 ## Deploy
 
-Confirm new version is present in pom.xml. (`project > version` and `project > scm > tag`)
+### Prepare
 
-Confirm CHANGELOG.md has been updated for new version.
+1. Decide whether this will be a patch, minor, or major release.
+    * Run `bin/preview-tag --patch` (or --minor, --major) to learn new version number.
+2. Proactively update CHANGELOG.md for new version number.
+3. Proactively update package.json for new version number.
+3. Commit
 
-Change version in package.json.
-
-Confirm that everything is committed.
-
-   $ git commit -am "vX.Y.Z"
-
-Tag git head with version.
-
-   $ git tag -a vX.Y.Z -m "vX.Y.Z"
+### Release
 
 Deploy to Clojars -- needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environment
-variables (requires the `pom.xml` file):
+variables:
 
-    $ clojure -X:deploy
+    $ envdir ../../env/clojars bin/clojars-release --patch # patch, minor, or major
 
 The library will be deployed to [clojars.org][clojars].
 
 Push to github, with tags:
 
-    $ git push --tags
-
-TODO: combine build and deploy into scripts, which include automated checks that
-version is present everywhere it needs to be.
+    $ git push --follow-tags
 
 [clojars]: https://clojars.org/com.github.mainej/headlessui-reagent

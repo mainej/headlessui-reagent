@@ -10,6 +10,5 @@
   :install {:replace-deps {slipset/deps-deploy {:mvn/version "0.1.5"}}
             :exec-fn      deps-deploy.deps-deploy/deploy
             :exec-args    {:installer :local :artifact "headlessui-reagent.jar"}}
-  :deploy  {:replace-deps {slipset/deps-deploy {:mvn/version "0.1.5"}}
-            :exec-fn      deps-deploy.deps-deploy/deploy
-            :exec-args    {:installer :remote :artifact "headlessui-reagent.jar"}}}}
+  :release {:extra-deps {applied-science/deps-library {:mvn/version "0.4.0"}}
+            :main-opts  ["-m" "applied-science.deps-library"]}}}

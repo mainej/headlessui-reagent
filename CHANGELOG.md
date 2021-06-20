@@ -5,6 +5,10 @@ change log follows the conventions of
 
 ## [Unreleased]
 
+## [1.1.0]
+### Changed:
+- Upgraded to @headlessui/react 1.2.0
+
 ## [1.0.0] - 2021-04-20
 ### Changed
 - Renamed namespaces:
@@ -39,7 +43,8 @@ change log follows the conventions of
 ### Added
 - Reagent interop with @headlessui/react for Disclosure, Transition and FocusTrap
 
-[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v1.0.0...main
+[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v1.1.0...main
+[1.1.0]: https://github.com/mainej/headlessui-reagent/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/mainej/headlessui-reagent/compare/v0.1.3...v1.0.0
 [0.1.3]: https://github.com/mainej/headlessui-reagent/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/mainej/headlessui-reagent/compare/v0.1.1...v0.1.2

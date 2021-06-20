@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+# expects --patch, --minor, or --major
+clojure -M:release tag --dry-run "$@"
