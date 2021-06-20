@@ -5,6 +5,11 @@ change log follows the conventions of
 
 ## [Unreleased]
 
+## [1.2.0]
+### Changed:
+- Plan to match release tags, or at least major and minor versions to
+  @headlessui/react's versions
+
 ## [1.1.0]
 ### Changed:
 - Upgraded to @headlessui/react 1.2.0
@@ -43,7 +48,8 @@ change log follows the conventions of
 ### Added
 - Reagent interop with @headlessui/react for Disclosure, Transition and FocusTrap
 
-[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v1.1.0...main
+[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v1.2.0...main
+[1.2.0]: https://github.com/mainej/headlessui-reagent/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/mainej/headlessui-reagent/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/mainej/headlessui-reagent/compare/v0.1.3...v1.0.0
 [0.1.3]: https://github.com/mainej/headlessui-reagent/compare/v0.1.2...v0.1.3
