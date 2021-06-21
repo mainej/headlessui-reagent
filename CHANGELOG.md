@@ -5,6 +5,9 @@ change log follows the conventions of
 
 ## [Unreleased]
 
+## [1.2.1]
+Update clojars with more repository information.
+
 ## [1.2.0]
 ### Changed:
 - Plan to match release tags, or at least major and minor versions to
@@ -48,7 +51,8 @@ change log follows the conventions of
 ### Added
 - Reagent interop with @headlessui/react for Disclosure, Transition and FocusTrap
 
-[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v1.2.0...main
+[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v1.2.1...main
+[1.2.1]: https://github.com/mainej/headlessui-reagent/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/mainej/headlessui-reagent/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/mainej/headlessui-reagent/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/mainej/headlessui-reagent/compare/v0.1.3...v1.0.0
