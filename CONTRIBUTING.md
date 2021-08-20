@@ -7,7 +7,7 @@ TODO: establish contributing guidelines here.
 1. Reference new version in README.md
 1. Update package.json devDependencies
 1. Update src/deps.cljs
-1. Update dev/build.clj `build/format-version` to track upstream version.
+1. Update dev/build.clj `build/headlessui-react-version` to track upstream version.
 
 ## Deploy
 

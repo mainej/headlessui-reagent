@@ -7,21 +7,17 @@
 
 (def ^:private lib 'com.github.mainej/headlessui-reagent)
 (def ^:private git-revs (Integer/parseInt (b/git-count-revs nil)))
-(defn- format-version [revision] (format "1.4.0.%s" revision))
+(def ^:private headlessui-react-version "1.4.0")
+(defn- format-version [revision] (str headlessui-react-version "." revision))
 (def ^:private version (format-version git-revs))
 (def ^:private next-version (format-version (inc git-revs)))
 (def ^:private tag (str "v" version))
-(def ^:private next-tag (str "v" next-version))
 (def ^:private class-dir "target/classes")
 (def ^:private basis (b/create-basis {:root    nil
                                       :user    nil
                                       :project "deps.edn"}))
 (def ^:private jar-file (format "target/%s-%s.jar" (name lib) version))
 (def ^:private pom-dir (jio/file (b/resolve-path class-dir) "META-INF" "maven" (namespace lib) (name lib)))
-
-(defn clean "Remove the target folder." [params]
-  (b/delete {:path "target"})
-  params)
 
 (defn- die
   ([code message & args]
@@ -37,17 +33,22 @@
     (when (zero? exit)
       (string/trim out))))
 
-(defn jar "Build the library JAR file." [params]
-  (b/write-pom {:class-dir class-dir
-                :lib       lib
-                :version   version
-                :scm       {:tag (git-rev)}
-                :basis     basis
-                :src-dirs  ["src"]})
-  (b/copy-dir {:src-dirs   ["src" "resources"]
-               :target-dir class-dir})
-  (b/jar {:class-dir class-dir
-          :jar-file  jar-file})
+(defn- git-push [params]
+  (when (or (-> {:command-args ["git" "push" "origin" tag]
+                 :out          :ignore
+                 :err          :ignore}
+                b/process
+                :exit
+                zero?
+                not)
+            (-> {:command-args ["git" "push" "origin"]
+                 :out          :ignore
+                 :err          :ignore}
+                b/process
+                :exit
+                zero?
+                not))
+    (die 15 "Couldn't sync with github."))
   params)
 
 (defn- assert-changelog-updated [params]
@@ -94,22 +95,21 @@
                             "Proceed with caution, because this tag may have already been released. If you've determined it's safe, run `git tag -d %s` before re-running `bin/tag-release`."]) tag tag)))
   params)
 
-(defn- git-push [params]
-  (when (or (-> {:command-args ["git" "push" "origin" tag]
-                 :out          :ignore
-                 :err          :ignore}
-                b/process
-                :exit
-                zero?
-                not)
-            (-> {:command-args ["git" "push" "origin"]
-                 :out          :ignore
-                 :err          :ignore}
-                b/process
-                :exit
-                zero?
-                not))
-    (die 15 "Couldn't sync with github."))
+(defn clean "Remove the target folder." [params]
+  (b/delete {:path "target"})
+  params)
+
+(defn jar "Build the library JAR file." [params]
+  (b/write-pom {:class-dir class-dir
+                :lib       lib
+                :version   version
+                :scm       {:tag (git-rev)}
+                :basis     basis
+                :src-dirs  ["src"]})
+  (b/copy-dir {:src-dirs   ["src" "resources"]
+               :target-dir class-dir})
+  (b/jar {:class-dir class-dir
+          :jar-file  jar-file})
   params)
 
 (defn check-release
@@ -138,16 +138,10 @@
   * Ensure the tag is available on Github"
   [params]
   (check-release params)
+  (clean params)
   (jar params)
   (d/deploy {:installer :remote
              :artifact  jar-file
              :pom-file  (jio/file pom-dir "pom.xml")})
   (git-push params)
   params)
-
-(comment
-  (clean nil)
-  (jar nil)
-  (git-push nil)
-  (assert-changelog-updated nil)
-  )
