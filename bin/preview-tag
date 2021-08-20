@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-set -Eeuo pipefail
-
-echo "The tag for this commit would be" $(clojure -T:build current-tag)
-echo "The tag for the next commit would be" $(clojure -T:build preview-tag)

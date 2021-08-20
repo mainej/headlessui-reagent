@@ -13,11 +13,17 @@ TODO: establish contributing guidelines here.
 
 ### Prepare
 
-1. Run `bin/preview-tag` to learn new version number.
-2. Proactively update CHANGELOG.md for new version number.
-3. Proactively update package.json for new version number.
-4. Commit
-5. Tag commit `bin/tag-release`
+To prepare for a release, run `bin/check-release`. The script will report what
+you can do to finish preparing, or if the release is ready, return an exit code
+of 0.
+
+It will check that you have done the following things:
+
+1. Proactively updated CHANGELOG.md
+2. Proactively updated package.json
+3. Commited
+4. Tagged commit
+
 
 ### Release
 
