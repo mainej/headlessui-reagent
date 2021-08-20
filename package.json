@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/mainej/headlessui-reagent#readme",
   "devDependencies": {
-    "@headlessui/react": "^1.2.0"
+    "@headlessui/react": "^1.4.0"
   }
 }

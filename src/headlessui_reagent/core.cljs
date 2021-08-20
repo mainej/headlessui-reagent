@@ -1,5 +1,6 @@
 (ns headlessui-reagent.core
   (:require ["@headlessui/react" :as ui]
+            [reagent.core :as r]
             [headlessui-reagent.utils :as utils]))
 
 (def menu (utils/headlessui->reagent ui/Menu))
@@ -38,7 +39,13 @@
 (def radio-group-label (utils/headlessui->reagent ui/RadioGroup.Label))
 (def radio-group-description (utils/headlessui->reagent ui/RadioGroup.Description))
 
-(defn transition [& args] (into [:> ui/Transition] args))
-(defn transition-child [& args] (into [:> ui/Transition.Child] args))
+(def tab-group (utils/headlessui->reagent ui/Tab.Group))
+(def tab-list (utils/headlessui->reagent ui/Tab.List))
+(def tab (utils/headlessui->reagent ui/Tab))
+(def tab-panels (utils/headlessui->reagent ui/Tab.Panels))
+(def tab-panel (utils/headlessui->reagent ui/Tab.Panel))
 
-(defn focus-trap [& args] (into [:> ui/FocusTrap] args))
+(def transition (r/adapt-react-class ui/Transition))
+(def transition-child (r/adapt-react-class ui/Transition.Child))
+
+(def focus-trap (r/adapt-react-class ui/FocusTrap))

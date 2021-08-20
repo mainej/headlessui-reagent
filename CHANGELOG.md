@@ -4,6 +4,11 @@ change log follows the conventions of
 [keepachangelog.com](http://keepachangelog.com/).
 
 ## [Unreleased]
+### Added
+- Reagent interop for Tab
+
+### Changed
+- Upgraded to @headlessui/react 1.4.0
 
 ## [1.2.1]
 Update clojars with more repository information.
