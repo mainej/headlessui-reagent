@@ -1,4 +1,7 @@
 {:paths   ["src"]
  :deps    {}
- :aliases {:release {:extra-deps {applied-science/deps-library {:mvn/version "0.4.0"}}
-                     :main-opts  ["-m" "applied-science.deps-library"]}}}
+ :aliases {;; for help: clojure -A:deps -T:build help/doc
+           :build  {:paths      ["dev"]
+                    :deps       {io.github.clojure/tools.build {:git/tag "v0.1.8" :git/sha "38d2780"}
+                                 slipset/deps-deploy           {:mvn/version "0.1.5"}}
+                    :ns-default build}}}
