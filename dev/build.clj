@@ -27,28 +27,18 @@
      (println message))
    (System/exit code)))
 
+(defn- git [command args]
+  (b/process (assoc args :command-args (into ["git"] command))))
+
 (defn- git-rev []
-  (let [{:keys [exit out]} (b/process {:command-args ["git" "rev-parse" "HEAD"]
-                                       :out          :capture})]
+  (let [{:keys [exit out]} (git ["rev-parse" "HEAD"] {:out :capture})]
     (when (zero? exit)
       (string/trim out))))
 
 (defn- git-push [params]
-  (when (or (-> {:command-args ["git" "push" "origin" tag]
-                 :out          :ignore
-                 :err          :ignore}
-                b/process
-                :exit
-                zero?
-                not)
-            (-> {:command-args ["git" "push" "origin"]
-                 :out          :ignore
-                 :err          :ignore}
-                b/process
-                :exit
-                zero?
-                not))
-    (die 15 "Couldn't sync with github."))
+  (when (not (and (zero? (:exit (git ["push" "origin" tag] {})))
+                  (zero? (:exit (git ["push" "origin"] {})))))
+    (die 15 "\nCouldn't sync with github."))
   params)
 
 (defn- assert-changelog-updated [params]
@@ -56,7 +46,8 @@
     (die 10 (string/join "\n"
                          ["CHANGELOG.md must include tag."
                           "  * If you will amend the current commit, use %s"
-                          "  * If you intend to create a new commit, use %s"]) version next-version))
+                          "  * If you intend to create a new commit, use %s"])
+         version next-version))
   params)
 
 (defn- assert-package-json-updated [params]
@@ -69,28 +60,21 @@
   params)
 
 (defn- assert-scm-clean [params]
-  (when-not (-> {:command-args ["git" "status" "--porcelain"]
-                 :out          :capture}
-                b/process
-                :out
-                string/blank?)
-    (die 12 "Git working directory must be clean. Run git commit"))
+  (let [git-changes (:out (git ["status" "--porcelain"] {:out :capture}))]
+    (when-not (string/blank? git-changes)
+      (println git-changes)
+      (die 12 "Git working directory must be clean. Run git commit")))
   params)
 
 (defn- assert-scm-tagged [params]
-  (when-not (-> {:command-args ["git" "rev-list" tag]
-                 :out          :ignore
-                 :err          :ignore}
-                b/process
-                :exit
-                zero?)
-    (die 13 "Git tag %s must exist. Run bin/tag-release" tag))
-  (let [{:keys [exit out]} (b/process {:command-args ["git" "describe" "--tags" "--abbrev=0" "--exact-match"]
-                                       :out          :capture})]
+  (when-not (zero? (:exit (git ["rev-list" tag] {:out :ignore})))
+    (die 13 "\nGit tag %s must exist. Run bin/tag-release" tag))
+  (let [{:keys [exit out]} (git ["describe" "--tags" "--abbrev=0" "--exact-match"] {:out :capture})]
     (when (or (not (zero? exit))
               (not= (string/trim out) tag))
       (die 14 (string/join "\n"
-                           ["Git tag %s must be on HEAD."
+                           [""
+                            "Git tag %s must be on HEAD."
                             ""
                             "Proceed with caution, because this tag may have already been released. If you've determined it's safe, run `git tag -d %s` before re-running `bin/tag-release`."]) tag tag)))
   params)
@@ -106,7 +90,7 @@
                 :scm       {:tag (git-rev)}
                 :basis     basis
                 :src-dirs  ["src"]})
-  (b/copy-dir {:src-dirs   ["src" "resources"]
+  (b/copy-dir {:src-dirs   ["src"]
                :target-dir class-dir})
   (b/jar {:class-dir class-dir
           :jar-file  jar-file})
@@ -132,7 +116,7 @@
 (defn release
   "Release the library.
 
-  * Confirm that we are ready to release
+  * Confirm that we are ready to release. See [[check-release]]
   * Build the JAR
   * Deploy to Clojars
   * Ensure the tag is available on Github"
