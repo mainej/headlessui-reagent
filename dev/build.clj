@@ -1,23 +1,19 @@
 (ns build
   (:require
-   [clojure.java.io :as jio]
    [clojure.string :as string]
    [clojure.tools.build.api :as b]
-   [deps-deploy.deps-deploy :as d]))
+   [org.corfield.build :as bb]))
 
 (def ^:private lib 'com.github.mainej/headlessui-reagent)
-(def ^:private git-revs (Integer/parseInt (b/git-count-revs nil)))
+(def ^:private rev-count (Integer/parseInt (b/git-count-revs nil)))
 (def ^:private headlessui-react-version "1.4.0")
 (defn- format-version [revision] (str headlessui-react-version "." revision))
-(def ^:private version (format-version git-revs))
-(def ^:private next-version (format-version (inc git-revs)))
+(def ^:private version (format-version rev-count))
+(def ^:private next-version (format-version (inc rev-count)))
 (def ^:private tag (str "v" version))
-(def ^:private class-dir "target/classes")
 (def ^:private basis (b/create-basis {:root    nil
                                       :user    nil
                                       :project "deps.edn"}))
-(def ^:private jar-file (format "target/%s-%s.jar" (name lib) version))
-(def ^:private pom-dir (jio/file (b/resolve-path class-dir) "META-INF" "maven" (namespace lib) (name lib)))
 
 (defn- die
   ([code message & args]
@@ -36,8 +32,8 @@
       (string/trim out))))
 
 (defn- git-push [params]
-  (when (not (and (zero? (:exit (git ["push" "origin" tag] {})))
-                  (zero? (:exit (git ["push" "origin"] {})))))
+  (when-not (and (zero? (:exit (git ["push" "origin" tag] {})))
+                 (zero? (:exit (git ["push" "origin"] {}))))
     (die 15 "\nCouldn't sync with github."))
   params)
 
@@ -63,15 +59,15 @@
   (let [git-changes (:out (git ["status" "--porcelain"] {:out :capture}))]
     (when-not (string/blank? git-changes)
       (println git-changes)
-      (die 12 "Git working directory must be clean. Run git commit")))
+      (die 12 "Git working directory must be clean. Run `git commit`")))
   params)
 
 (defn- assert-scm-tagged [params]
   (when-not (zero? (:exit (git ["rev-list" tag] {:out :ignore})))
-    (die 13 "\nGit tag %s must exist. Run bin/tag-release" tag))
+    (die 13 "\nGit tag %s must exist. Run `bin/tag-release`" tag))
   (let [{:keys [exit out]} (git ["describe" "--tags" "--abbrev=0" "--exact-match"] {:out :capture})]
-    (when (or (not (zero? exit))
-              (not= (string/trim out) tag))
+    (when-not (and (zero? exit)
+                   (= (string/trim out) tag))
       (die 14 (string/join "\n"
                            [""
                             "Git tag %s must be on HEAD."
@@ -80,21 +76,14 @@
   params)
 
 (defn clean "Remove the target folder." [params]
-  (b/delete {:path "target"})
-  params)
+  (bb/clean params))
 
 (defn jar "Build the library JAR file." [params]
-  (b/write-pom {:class-dir class-dir
-                :lib       lib
-                :version   version
-                :scm       {:tag (git-rev)}
-                :basis     basis
-                :src-dirs  ["src"]})
-  (b/copy-dir {:src-dirs   ["src"]
-               :target-dir class-dir})
-  (b/jar {:class-dir class-dir
-          :jar-file  jar-file})
-  params)
+  (bb/jar (assoc params
+                 :lib     lib
+                 :version version
+                 :basis   basis
+                 :tag     (git-rev))))
 
 (defn check-release
   "Check that the library is ready to be released.
@@ -124,8 +113,7 @@
   (check-release params)
   (clean params)
   (jar params)
-  (d/deploy {:installer :remote
-             :artifact  jar-file
-             :pom-file  (jio/file pom-dir "pom.xml")})
+  (bb/deploy {:lib     lib
+              :version version})
   (git-push params)
   params)
