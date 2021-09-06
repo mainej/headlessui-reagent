@@ -4,10 +4,9 @@ TODO: establish contributing guidelines here.
 
 ## Upgrading @headlessui/react
 
-1. Reference new version in README.md
-1. Update package.json devDependencies
-1. Update src/deps.cljs
-1. Update dev/build.clj `build/headlessui-react-version` to track upstream version.
+1. Update package.json `"devDependencies"`
+1. Update src/deps.cljs `:npm-deps`
+1. Update dev/build.clj `headlessui-react-version`
 
 ## Deploy
 

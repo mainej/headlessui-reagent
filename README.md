@@ -6,8 +6,16 @@ Provides reagent wrappers for [@headlessui/react][headlessui] components.
 
 Install as a [Clojure dependency][clojars]. Assuming you run your project with
 shadow-cljs, `@headlessui/react` will be installed as a JS dependency.
-Otherwise, you may have to `npm install` it yourself. `headlessui-reagent` was
-built with `@headlessui/react` version `1.4.1` but may work with later versions.
+Otherwise, you may have to install it yourself with npm/yarn. 
+
+Since `v1.4.0.32`, `headlessui-reagent` tracks `@headlessui/react`'s versioning.
+That is, the first three segments of the version (`1.4.0`) indicate that this
+library was built with `@headlessui/react` version `1.4.0`. The last segment
+(`32`) distinguishes between releases of this library that were all built with
+the same version of `@headlessui/react`.
+
+If for some reason you need an earlier version, `v1.2.0` and `v1.2.1` were built
+against `@headlessui/react` `v1.2.0` and earlier releases against `v1.0.0`.
 
 ## Usage
 
