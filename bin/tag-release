@@ -2,4 +2,4 @@
 
 set -Eeuo pipefail
 
-exec git tag $(clojure -T:build current-tag)
+clojure -T:build tag-release

@@ -75,6 +75,12 @@
                             "Proceed with caution, because this tag may have already been released. If you've determined it's safe, run `git tag -d %s` before re-running `bin/tag-release`."]) tag tag)))
   params)
 
+#_{:clj-kondo/ignore #{:clojure-lsp/unused-public-var}}
+(defn tag-release "Tag the HEAD commit for the current release." [params]
+  (when-not (zero? (:exit (git ["tag" tag] {})))
+    (die 15 "\nCouldn't create tag %s." tag))
+  params)
+
 (defn clean "Remove the target folder." [params]
   (bb/clean params))
 
