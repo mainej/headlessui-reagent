@@ -6,7 +6,7 @@
 
 (def ^:private lib 'com.github.mainej/headlessui-reagent)
 (def ^:private rev-count (Integer/parseInt (b/git-count-revs nil)))
-(def ^:private headlessui-react-version "1.4.1")
+(def ^:private headlessui-react-version "1.4.2")
 (defn- format-version [revision] (str headlessui-react-version "." revision))
 (def ^:private version (format-version rev-count))
 (def ^:private next-version (format-version (inc rev-count)))
@@ -16,12 +16,12 @@
                                       :project "deps.edn"}))
 
 (defn- die
-  ([code message & args]
-   (die code (apply format message args)))
-  ([code message]
+  ([message & args]
+   (die (apply format message args)))
+  ([message]
    (binding [*out* *err*]
      (println message))
-   (System/exit code)))
+   (System/exit 1)))
 
 (defn- git [command args]
   (b/process (assoc args :command-args (into ["git"] command))))
@@ -34,24 +34,24 @@
 (defn- git-push [params]
   (when-not (and (zero? (:exit (git ["push" "origin" tag] {})))
                  (zero? (:exit (git ["push" "origin"] {}))))
-    (die 15 "\nCouldn't sync with github."))
+    (die "\nCouldn't sync with github."))
   params)
 
 (defn- assert-changelog-updated [params]
   (when-not (string/includes? (slurp "CHANGELOG.md") tag)
-    (die 10 (string/join "\n"
-                         ["CHANGELOG.md must include tag."
-                          "  * If you will amend the current commit, use %s"
-                          "  * If you intend to create a new commit, use %s"])
+    (die (string/join "\n"
+                      ["CHANGELOG.md must include tag."
+                       "  * If you will amend the current commit, use %s"
+                       "  * If you intend to create a new commit, use %s"])
          version next-version))
   params)
 
 (defn- assert-package-json-updated [params]
   (when-not (string/includes? (slurp "package.json") version)
-    (die 11 (string/join "\n"
-                         ["package.json must include version."
-                          "  * If you will amend the current commit, use %s"
-                          "  * If you intend to create a new commit, use %s"])
+    (die (string/join "\n"
+                      ["package.json must include version."
+                       "  * If you will amend the current commit, use %s"
+                       "  * If you intend to create a new commit, use %s"])
          version next-version))
   params)
 
@@ -59,26 +59,31 @@
   (let [git-changes (:out (git ["status" "--porcelain"] {:out :capture}))]
     (when-not (string/blank? git-changes)
       (println git-changes)
-      (die 12 "Git working directory must be clean. Run `git commit`")))
+      (die "Git working directory must be clean. Run `git commit`")))
   params)
 
 (defn- assert-scm-tagged [params]
   (when-not (zero? (:exit (git ["rev-list" tag] {:out :ignore})))
-    (die 13 "\nGit tag %s must exist. Run `bin/tag-release`" tag))
+    (die "\nGit tag %s must exist. Run `bin/tag-release`" tag))
   (let [{:keys [exit out]} (git ["describe" "--tags" "--abbrev=0" "--exact-match"] {:out :capture})]
     (when-not (and (zero? exit)
                    (= (string/trim out) tag))
-      (die 14 (string/join "\n"
-                           [""
-                            "Git tag %s must be on HEAD."
-                            ""
-                            "Proceed with caution, because this tag may have already been released. If you've determined it's safe, run `git tag -d %s` before re-running `bin/tag-release`."]) tag tag)))
+      (die (string/join "\n"
+                        [""
+                         "Git tag %s must be on HEAD."
+                         ""
+                         "Proceed with caution, because this tag may have already been released. If you've determined it's safe, run `git tag -d %s` before re-running `bin/tag-release`."]) tag tag)))
+  params)
+
+(defn- assert-clojars-creds [params]
+  (when-not (System/getenv "CLOJARS_USERNAME")
+    (die "\nMissing required CLOJARS_* credentials."))
   params)
 
 #_{:clj-kondo/ignore #{:clojure-lsp/unused-public-var}}
 (defn tag-release "Tag the HEAD commit for the current release." [params]
   (when-not (zero? (:exit (git ["tag" tag] {})))
-    (die 15 "\nCouldn't create tag %s." tag))
+    (die "\nCouldn't create tag %s." tag))
   params)
 
 (defn clean "Remove the target folder." [params]
@@ -116,6 +121,7 @@
   * Deploy to Clojars
   * Ensure the tag is available on Github"
   [params]
+  (assert-clojars-creds params)
   (check-release params)
   (clean params)
   (jar params)
