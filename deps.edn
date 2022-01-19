@@ -1,6 +1,12 @@
 {:paths   ["src"]
- :deps    {}
+ ;; Mark reagent as <optional>true</optional> in the pom. Would be more correct
+ ;; [1] to mark it as <scope>provided</scope> since reagent is always needed to
+ ;; use this lib. But, tools.build doesn't support scope [2].
+ ;; [1] https://medium.com/@danismaz.furkan/difference-between-optional-true-optional-and-scope-provided-scope-7404ec24fb59
+ ;; [2] https://ask.clojure.org/index.php/9110/scope-in-deps-edn-should-be-added-and-not-deleted-from-pom-xml
+ :deps    {reagent/reagent {:mvn/version "1.1.0"
+                            :optional    true}}
  :aliases {;; for help: clojure -A:deps -T:build help/doc
-           :build  {:paths      ["dev"]
-                    :deps       {io.github.seancorfield/build-clj {:git/tag "v0.1.0" :git/sha "fe2d586"}}
-                    :ns-default build}}}
+           :build {:paths      ["dev"]
+                   :deps       {io.github.seancorfield/build-clj {:git/tag "v0.1.0" :git/sha "fe2d586"}}
+                   :ns-default build}}}
