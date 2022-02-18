@@ -190,7 +190,7 @@ props between them.
 
 ## License
 
-Copyright © 2021 Jacob Maine
+Copyright © 2022 Jacob Maine
 
 Distributed under the MIT License.
 

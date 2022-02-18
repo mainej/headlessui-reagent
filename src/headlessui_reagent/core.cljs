@@ -14,6 +14,13 @@
 (def listbox-options (utils/headlessui->reagent ui/Listbox.Options))
 (def listbox-option (utils/headlessui->reagent ui/Listbox.Option))
 
+(def combobox (utils/headlessui->reagent ui/Combobox))
+(def combobox-input (utils/headlessui->reagent ui/Combobox.Input))
+(def combobox-button (utils/headlessui->reagent ui/Combobox.Button))
+(def combobox-options (utils/headlessui->reagent ui/Combobox.Options))
+(def combobox-option (utils/headlessui->reagent ui/Combobox.Option))
+(def combobox-label (utils/headlessui->reagent ui/Combobox.Label))
+
 (def switch (utils/headlessui->reagent ui/Switch))
 (def switch-label (utils/headlessui->reagent ui/Switch.Label))
 (def switch-description (utils/headlessui->reagent ui/Switch.Description))

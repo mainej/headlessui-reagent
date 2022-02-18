@@ -6,7 +6,7 @@
 
 (def ^:private lib 'com.github.mainej/headlessui-reagent)
 (def ^:private rev-count (Integer/parseInt (b/git-count-revs nil)))
-(def ^:private headlessui-react-version "1.4.3")
+(def ^:private headlessui-react-version "1.5.0")
 (defn- format-version [revision] (str headlessui-react-version "." revision))
 (def ^:private version (format-version rev-count))
 (def ^:private next-version (format-version (inc rev-count)))
@@ -38,12 +38,13 @@
   params)
 
 (defn- assert-changelog-updated [params]
-  (when-not (string/includes? (slurp "CHANGELOG.md") tag)
-    (die (string/join "\n"
-                      ["CHANGELOG.md must include tag."
-                       "  * If you will amend the current commit, use %s"
-                       "  * If you intend to create a new commit, use %s"])
-         version next-version))
+  (let [occurrences (count (re-seq (re-pattern version) (slurp "CHANGELOG.md")))]
+    (when (< occurrences 4)
+      (die (string/join "\n"
+                        ["CHANGELOG.md must include version at least 4 times, but saw it %s times."
+                         "  * If you will amend the current commit, use %s"
+                         "  * If you intend to create a new commit, use %s"])
+           occurrences version next-version)))
   params)
 
 (defn- assert-package-json-updated [params]

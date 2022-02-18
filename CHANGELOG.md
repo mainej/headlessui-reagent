@@ -5,6 +5,12 @@ change log follows the conventions of
 
 ## [Unreleased]
 
+## [1.5.0.47]
+### Changed
+- Upgraded to @headlessui/react 1.5.0
+### Added
+- Reagent interop for Combobox
+
 ## [1.4.3.46]
 ### Fixed
 - cljdocs, by specifying dependency on reagent
@@ -74,8 +80,9 @@ Update clojars with more repository information.
 ### Added
 - Reagent interop with @headlessui/react for Disclosure, Transition and FocusTrap
 
-[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v1.4.3.44...main
-[1.4.3.44]: https://github.com/mainej/headlessui-reagent/compare/v1.4.3.44...v1.4.3.46
+[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v1.5.0.47...main
+[1.5.0.47]: https://github.com/mainej/headlessui-reagent/compare/v1.4.3.46...v1.5.0.47
+[1.4.3.46]: https://github.com/mainej/headlessui-reagent/compare/v1.4.3.44...v1.4.3.46
 [1.4.3.44]: https://github.com/mainej/headlessui-reagent/compare/v1.4.2.43...v1.4.3.44
 [1.4.2.43]: https://github.com/mainej/headlessui-reagent/compare/v1.4.1.40...1.4.2.43
 [1.4.1.40]: https://github.com/mainej/headlessui-reagent/compare/v1.4.0.32...v1.4.1.40
