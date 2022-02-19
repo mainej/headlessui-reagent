@@ -4,6 +4,9 @@ change log follows the conventions of
 [keepachangelog.com](http://keepachangelog.com/).
 
 ## [Unreleased]
+### Added
+- Created example project which demonstrates all the headlessui-reagent
+  components.
 
 ## [1.5.0.47]
 ### Changed

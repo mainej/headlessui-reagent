@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
+
+npx tailwindcss -i ${script_dir}/../src/css/styles.css -o ${script_dir}/../target/public/styles.css "$@"

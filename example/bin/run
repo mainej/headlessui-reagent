@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
+
+npm install
+${script_dir}/dev-html
+${script_dir}/dev-css
+npx shadow-cljs watch app

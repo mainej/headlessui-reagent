@@ -1,0 +1,11 @@
+{:deps {:aliases [:cljs]}
+ :builds
+ {:app {:target           :browser
+        :output-dir       "target/public/js"
+        :compiler-options {:infer-externs :auto}
+        :modules          {:main {:entries [all-examples]
+                                  :init-fn all-examples/init}}
+        :devtools         {:http-port 8021
+                           :http-root "target/public/"
+                           :after-load all-examples/mount-root
+                           }}}}
