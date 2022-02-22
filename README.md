@@ -35,7 +35,7 @@ Usage follows the Headless UI API. For example, to use a
     [:p "Some explanation."]]]
 ```
 
-To see each of the components in action, check out the [examples](/examples).
+To see each of the components in action, check out the [examples](/example).
 
 ### Styling the active item
 

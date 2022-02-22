@@ -4,7 +4,7 @@ This directory contains an example of headless-reagent in use.
 
 To run it, execute
 
-   $ bin/run
+    $ bin/run
 
 After you see the output "Build completed." open
 [http://localhost:8021](http://localhost:8021).
