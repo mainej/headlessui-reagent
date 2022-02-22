@@ -7,6 +7,10 @@ change log follows the conventions of
 ### Added
 - Created example project which demonstrates all the headlessui-reagent
   components.
+### Fixed
+- Worked around a problem where form-1 components couldn't be used as the return
+  value of a render-props function. form-2 and form-3 components still won't
+  work, though they'll be rare.
 
 ## [1.5.0.47]
 ### Changed

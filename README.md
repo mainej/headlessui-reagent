@@ -160,32 +160,6 @@ person in `:on-change`.
 There are some known limitations to the interop between Reagent and Headless UI.
 Bug fixes welcome!
 
-### Reagent components and render props
-
-When using the render props style (passing a function as the only argument to a
-component), if Headless UI needs to pass props (ARIA attributes, event handlers,
-etc.) to the returned component, which it often does, the component must be a
-hiccup keyword, not a Reagent component function:
-
-```clojure
-;; DON'T do this
-(defn my-component [{:keys [active]} copy]
-  [:a.block {:href "#" :class (when active :bg-blue-500)} copy])
-
-[ui/menu-item
-  (fn [props]
-    [my-component props "A menu item"])]
-
-;; Instead, do this
-[ui/menu-item
-  (fn [{:keys [active]}]
-    [:a.block {:href "#" :class (when active :bg-blue-500)} "A menu item"])]
-```
-
-This can be annoying, but is necessary because Headless UI can't seem to forward
-props to Reagent component function elements in the same way that it can for
-hiccup keywords.
-
 ### Rendering children directly
 
 In some cases where Headless UI would usually render a wrapper element, it
