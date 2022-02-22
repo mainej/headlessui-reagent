@@ -412,7 +412,7 @@
 (defn example [title opts child]
   [:div.relative.mt-8.mb-12.sm:mx-10.p-8.sm:rounded-xl.overflow-hidden.space-y-8.bg-gradient-to-r
    opts
-   [:h2.text-white.opacity-50.text-5xl.font-bold title]
+   [:h2.text-white.opacity-80.text-5xl.font-bold title]
    [:div.flex.flex-col.items-center.w-full
     child]])
 
