@@ -28,8 +28,8 @@
 (defn menu-item [icon label]
   [ui/menu-item
    (fn [{:keys [active]}]
-     [:button {:class (into [:group :flex :rounded-md :items-center :w-full :px-2 :py-2 :text-sm]
-                            (if active [:bg-violet-500 :text-white] [:text-gray-900]))}
+     [:button.group.flex.rounded-md.items-center.w-full.px-2.py-2.text-sm
+      {:class (if active [:bg-violet-500 :text-white] [:text-gray-900])}
       [:> icon
        {:class [:h-5 :w-5 :mr-2 (if active :text-violet-100 :text-violet-900)]
         :aria-hidden true}]
@@ -153,11 +153,11 @@
         :style {:height "38px"
                 :width "74px"}}
        [:span.sr-only "Use setting"]
-       [:span {:aria-hidden true
-               :class (str "pointer-events-none inline-block rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200 "
-                           (if enabled "translate-x-9" "translate-x-0"))
-               :style {:height "34px"
-                       :width "34px"}}]])))
+       [:span.pointer-events-none.inline-block.rounded-full.bg-white.shadow-lg.transform.ring-0.transition.ease-in-out.duration-200
+        {:aria-hidden true
+         :class (if enabled :translate-x-9 :translate-x-0)
+         :style {:height "34px"
+                 :width "34px"}}]])))
 
 (defn qa-option [open question answer]
   [:<>
@@ -331,9 +331,9 @@
                [:div.flex.items-center.justify-between.w-full
                 [:div.flex.items-center
                  [:div.text-sm
-                  [ui/radio-group-label {:as "p" :class [:font-medium (if checked :text-white :text-gray-900)]}
+                  [ui/radio-group-label {:as :p.font-medium :class (if checked :text-white :text-gray-900)}
                    (:name plan)]
-                  [ui/radio-group-description {:as "span" :class [:inline (if checked :text-sky-100 :text-gray-500)]}
+                  [ui/radio-group-description {:as :span.inline :class (if checked :text-sky-100 :text-gray-500)}
                    [:span (:ram plan) "/" (:cpus plan)] " "
                    [:span (assoc middot-props :aria-hidden true)] " "
                    [:span (:disk plan)]]]]
@@ -406,8 +406,8 @@
              [:li comment-count " comments"]
              [:li middot-props]
              [:li share-count " shares"]]
-            [:a {:href "##"
-                 :class "absolute inset-0 rounded-md focus:z-10 focus:outline-none focus:ring-2 ring-blue-400"}]])]])]]])
+            [:a.absolute.inset-0.rounded-md.focus:z-10.focus:outline-none.focus:ring-2.ring-blue-400
+             {:href "##"}]])]])]]])
 
 (defn example [title opts child]
   [:div.relative.mt-8.mb-12.sm:mx-10.p-8.sm:rounded-xl.overflow-hidden.space-y-8.bg-gradient-to-r
