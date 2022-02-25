@@ -1,0 +1,9 @@
+{:tasks
+ {:requires [[babashka.fs :as fs]]
+  dev-html (fs/copy "resources/index.html" "target/public/" {:replace-existing true})
+  dev-css (shell "npx tailwindcss -i src/css/styles.css -o target/public/styles.css")
+  dev-js (shell "npx shadow-cljs watch app")
+  dev (do
+        (run 'dev-html)
+        (run 'dev-css)
+        (run 'dev-js))}}
