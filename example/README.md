@@ -4,33 +4,26 @@ This directory contains an example of headless-reagent in use.
 
 The code is in [src/main/all_examples.cljs](src/main/all_examples.cljs).
 
-## Run once
+## Run
 
-To view the live components, execute
+To view the live components, you'll need NPM version 7 or higher and
+[babashka](https://github.com/babashka/babashka#installation). After these are
+installed, run:
 
-    $ bin/run
+    $ bb live
 
 After you see the output "Build completed", open
 [http://localhost:8021](http://localhost:8021).
 
-## Refresh
+If you make changes to the ClojureScript code, they should appear in the browser
+immediately.
 
-If you plan to hack on the examples, you'll need two separate watches, one for
-the CSS and one for the JS.
+### Development
 
-Run once:
+You shouldn't need to restart the build very often, but if you do, you can speed
+up the restarts by running:
 
-    $ npm install
-    $ bin/dev-html
-
-Then, in one terminal:
-
-    $ bin/dev-css --watch
-
-And in another
-
-    $ bin/dev-js
-
-Again, wait for "Build completed", then open
-[http://localhost:8021](http://localhost:8021).
-
+    $ bb js-server
+    
+Wait for it to say "nREPL server started" before running `bb live` in a separate
+terminal tab.

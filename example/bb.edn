@@ -1,9 +1,27 @@
 {:tasks
- {:requires [[babashka.fs :as fs]]
-  dev-html (fs/copy "resources/index.html" "target/public/" {:replace-existing true})
-  dev-css (shell "npx tailwindcss -i src/css/styles.css -o target/public/styles.css")
-  dev-js (shell "npx shadow-cljs watch app")
-  dev (do
-        (run 'dev-html)
-        (run 'dev-css)
-        (run 'dev-js))}}
+ {:requires     [[babashka.fs :as fs]]
+  -node-modules (when (seq (fs/modified-since "node_modules" ["package.json"
+                                                              "package-lock.json"
+                                                              "deps.edn"
+                                                              "shadow-cljs.edn"]))
+                  (shell "npm install"))
+  -public-dir   (let [dir "target/public"]
+                  (fs/create-dirs dir)
+                  dir)
+  js-server     {:doc     "Starts a shadow-cljs server, to speed up restarts of ClojureScript builds."
+                 :depends [-node-modules]
+                 :task    (shell "npx shadow-cljs server")}
+  clean         {:doc  "Cleans target directory."
+                 :task (fs/delete-tree "target")}
+  html          {:doc     "Creates index.html."
+                 :depends [-public-dir]
+                 :task    (fs/copy "resources/index.html" -public-dir {:replace-existing true})}
+  css-watch     {:doc     "Watches and rebuilds CSS."
+                 :depends [-public-dir -node-modules]
+                 :task    (shell (str "npx tailwindcss -i src/css/styles.css -o " -public-dir "/styles.css --watch"))}
+  js-watch      {:doc     "Watches and rebuilds ClojureScript. Serves the examples from http://localhost:8021"
+                 :depends [-node-modules]
+                 :task    (shell "npx shadow-cljs watch app")}
+  -live         {:depends [html css-watch js-watch]}
+  live          {:doc  "Watches and rebuilds ClojureScript and CSS. Serves the examples from http://localhost:8021"
+                 :task (run '-live {:parallel true})}}}
