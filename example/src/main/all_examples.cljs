@@ -148,39 +148,40 @@
       [ui/switch
        {:checked enabled
         :on-change #(swap! !enabled not)
-        :class (str "relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 "
-                    (if enabled "bg-teal-900" "bg-teal-700"))
+        :class [:relative :inline-flex :flex-shrink-0 :border-2 :border-transparent :rounded-full :cursor-pointer :transition-colors :ease-in-out :duration-200 :focus:outline-none :focus-visible:ring-2 :focus-visible:ring-white :focus-visible:ring-opacity-75 ;; .ease-in-out unneeded since Tailwind CSS 3.0
+                (if enabled :bg-teal-900 :bg-teal-700)]
         :style {:height "38px"
                 :width "74px"}}
        [:span.sr-only "Use setting"]
-       [:span.pointer-events-none.inline-block.rounded-full.bg-white.shadow-lg.transform.ring-0.transition.ease-in-out.duration-200
+       [:span.pointer-events-none.inline-block.rounded-full.bg-white.shadow-lg.transform.ring-0.transition.ease-in-out.duration-200 ;; .transform, .transition, .ease-in-out unneeded since Tailwind CSS 3.0
         {:aria-hidden true
          :class (if enabled :translate-x-9 :translate-x-0)
          :style {:height "34px"
                  :width "34px"}}]])))
 
-(defn qa-option [open question answer]
-  [:<>
-   [ui/disclosure-button
-    {:class "flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-purple-900 bg-purple-100 rounded-lg hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"}
-    [:span question]
-    [:> solid/ChevronUpIcon {:class (concat [:w-5 :h-5 :text-purple-500]
-                                            (when open
-                                              [:transform :rotate-180]))}]]
-   [ui/disclosure-panel {:class "px-4 pt-4 pb-2 text-sm text-gray-500"} answer]])
+(defn question-and-answer [question answer]
+  [ui/disclosure {:as :div}
+   (fn [{:keys [open]}]
+     [:<>
+      [ui/disclosure-button
+       {:class "flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-purple-900 bg-purple-100 rounded-lg hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"}
+       [:span question]
+       [:> solid/ChevronUpIcon {:class (concat [:w-5 :h-5 :text-purple-500]
+                                               (when open
+                                                 ;; .transform unneeded since Tailwind CSS 3.0
+                                                 [:transform :rotate-180]))}]]
+      [ui/disclosure-panel {:class "px-4 pt-4 pb-2 text-sm text-gray-500"} answer]])])
 
 (defn disclosure-example []
   [:div.w-full.max-w-md.p-2.mx-auto.bg-white.rounded-2xl.space-y-2
-   [ui/disclosure
-    (fn [{:keys [open]}]
-      [:div
-       [qa-option open "What is your refund policy?" "If you're unhappy with your purchase for any reason, email us within 90 days and we'll refund you in full, no questions asked."]])]
-   [ui/disclosure
-    (fn [{:keys [open]}]
-      [:div
-       [qa-option open "Do you offer technical support?" "No."]])]])
+   [question-and-answer
+    "What is your refund policy?"
+    "If you're unhappy with your purchase for any reason, email us within 90 days and we'll refund you in full, no questions asked."]
+   [question-and-answer
+    "Do you offer technical support?"
+    "No."]])
 
-(defn modal-example []
+(defn dialog-example []
   (r/with-let [!open? (r/atom false)
                open #(reset! !open? true)
                close #(reset! !open? false)]
@@ -193,17 +194,18 @@
          "Open dialog"]]
 
        [ui/transition
-        {:appear true
+        {;; :appear true ;; appear is irrelevant for us because open? defaults to false, unlike on headlessui.dev
          :show open?}
         [ui/dialog {:on-close close}
          [:div.fixed.inset-0.z-10.overflow-y-auto
           [:div.min-h-screen.px-4.text-center
            ;; NOTE: the structure of this HTML is delicate and has subtle
            ;; interactions to keep the modal centered. The structure we use is
-           ;; slightly different from the headlessui.dev example. There the
-           ;; Transition.Children are rendered as fragments. Here, since we
-           ;; don't support fragments, we move some of the structural styles to
-           ;; the Transition.Children, which seems to have the same effect.
+           ;; slightly different from the headlessui.dev example. There, the
+           ;; Transition.Child elements are rendered as fragments. Here, since
+           ;; we don't support fragments, we move some of the structural styles
+           ;; to the transition-child elements, which seems to have the same
+           ;; effect.
            [ui/transition-child
             {:enter  "ease-out duration-300"
              :enter-from "opacity-0"
@@ -212,10 +214,17 @@
              :leave-from "opacity-100"
              :leave-to "opacity-0"}
             [ui/dialog-overlay {:class "fixed inset-0 bg-gray-500 bg-opacity-75"}]]
-           ;; trick browser into centering modal contents
+           ;; Trick browser into centering modal contents.
+           ;; This is the "ghost element" technique, described here
+           ;; https://css-tricks.com/centering-in-the-unknown/ as well as
+           ;; elsewhere.
            [:span.inline-block.h-screen.align-middle
             (assoc zero-width-space-props :aria-hidden true)]
            [ui/transition-child
+            ;; .transform isn't needed for the animiation since Tailwind CSS
+            ;; 3.0. But, it has the side-effect of creating a stacking context,
+            ;; which is necessary. .isolate would be more correct, but we're
+            ;; leaving .transform to stay close to headlessui.dev.
             {:class "inline-block align-middle text-left transform"
              :enter  "ease-out duration-300"
              :enter-from "opacity-0 scale-95"
@@ -254,11 +263,12 @@
    [ui/popover {:class :relative}
     (fn [{:keys [open]}]
       [:<>
+       ;; text-opacity-* is not a Tailwind CSS class. This is probably a bug in headlessui.dev. Preserving anyway.
        [ui/popover-button {:class [:text-white :group :bg-orange-700 :px-3 :py-2 :rounded-md :inline-flex :items-center :text-base :font-medium :hover:text-opacity-100 :focus:outline-none :focus-visible:ring-2 :focus-visible:ring-white :focus-visible:ring-opacity-75
                                    (when open :text-opacity-90)]}
         [:span "Solutions"]
         [:> solid/ChevronDownIcon
-         {:class [:ml-2 :h-5 :w-5 :text-orange-300 :group-hover:text-opacity-80 :transition :ease-in-out :duration-150
+         {:class [:ml-2 :h-5 :w-5 :text-orange-300 :group-hover:text-opacity-80 :transition :ease-in-out :duration-150 ;; .ease-in-out, .duration-150 unneeded since Tailwind CSS 3.0
                   (when open :text-opacity-70)]
           :aria-hidden true}]]
        [ui/transition
@@ -269,12 +279,12 @@
          :leave-from "opacity-100 translate-y-0"
          :leave-to "opacity-0 translate-y-1"}
         [ui/popover-panel
-         {:class "absolute z-10 w-screen max-w-sm px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl"}
+         {:class "absolute z-10 w-screen max-w-sm px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl"} ;; .transform unneeded since Tailwind CSS 3.0
          [:div.overflow-hidden.rounded-lg.shadow-lg.ring-1.ring-black.ring-opacity-5
           [:div.relative.grid.gap-8.bg-white.p-7.lg:grid-cols-2
            (for [{:keys [name description href icon]} solutions]
              ^{:key name}
-             [:a.flex.items-center.p-2.-m-3.transition.duration-150.ease-in-out.rounded-lg.hover:bg-gray-50.focus:outline-none.focus-visible:ring.focus-visible:ring-orange-500.focus-visible:ring-opacity-50
+             [:a.flex.items-center.p-2.-m-3.transition.duration-150.ease-in-out.rounded-lg.hover:bg-gray-50.focus:outline-none.focus-visible:ring.focus-visible:ring-orange-500.focus-visible:ring-opacity-50 ;; .ease-in-out, .duration-150 unneeded since Tailwind CSS 3.0
               {:href href}
               [:div.flex.items-center.justify-center.flex-shrink-0.text-white
                [:div.w-10.h-10.sm:h-12.sm:w-12.rounded-md.bg-orange-100.flex.items-center.justify-center
@@ -283,7 +293,7 @@
                [:p.text-sm.font-medium.text-gray-900 name]
                [:p.text-sm.text-gray-500 description]]])]
           [:div.p-4.bg-gray-50
-           [:a.flow-root.px-2.py-2.transition.duration-150.ease-in-out.rounded-md.hover:bg-gray-100.focus:outline-none.focus-visible:ring.focus-visible:ring-orange-500.focus-visible:ring-opacity-50
+           [:a.flow-root.px-2.py-2.transition.duration-150.ease-in-out.rounded-md.hover:bg-gray-100.focus:outline-none.focus-visible:ring.focus-visible:ring-orange-500.focus-visible:ring-opacity-50 ;; .ease-in-out, .duration-150 unneeded since Tailwind CSS 3.0
             {:href "##"}
             [:span.flex.items-center
              [:span.text-sm.font-medium.text-gray-900 "Documentation"]]
@@ -435,7 +445,7 @@
     [disclosure-example]]
    [example "Dialog (Modal)"
     {:class "from-sky-400 to-indigo-500"}
-    [modal-example]]
+    [dialog-example]]
    [example "Popover"
     {:class "from-orange-400 to-pink-600"}
     [popover-example]]
