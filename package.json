@@ -1,6 +1,6 @@
 {
   "name": "headlessui-reagent",
-  "version": "1.5.0.47",
+  "version": "1.6.0.62",
   "description": "Adapts headlessui for use with Reagent",
   "repository": {
     "type": "git",

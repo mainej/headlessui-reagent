@@ -4,7 +4,13 @@ change log follows the conventions of
 [keepachangelog.com](http://keepachangelog.com/).
 
 ## [Unreleased]
+
+## [1.6.0.62]
+### Changed
+- Upgraded to @headlessui/react 1.6.0
+- Upgraded to reagent 1.1.1
 ### Added
+- Reagent interop for Dialog.Panel and Dialog.Backdrop
 - Created example project which demonstrates all the headlessui-reagent
   components.
 ### Fixed
@@ -87,7 +93,8 @@ Update clojars with more repository information.
 ### Added
 - Reagent interop with @headlessui/react for Disclosure, Transition and FocusTrap
 
-[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v1.5.0.47...main
+[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v1.6.0.62...main
+[1.6.0.62]: https://github.com/mainej/headlessui-reagent/compare/v1.5.0.47...v1.6.0.62
 [1.5.0.47]: https://github.com/mainej/headlessui-reagent/compare/v1.4.3.46...v1.5.0.47
 [1.4.3.46]: https://github.com/mainej/headlessui-reagent/compare/v1.4.3.44...v1.4.3.46
 [1.4.3.44]: https://github.com/mainej/headlessui-reagent/compare/v1.4.2.43...v1.4.3.44
