@@ -34,6 +34,8 @@
 (def dialog-overlay (utils/headlessui->reagent ui/Dialog.Overlay))
 (def dialog-title (utils/headlessui->reagent ui/Dialog.Title))
 (def dialog-description (utils/headlessui->reagent ui/Dialog.Description))
+(def dialog-panel (utils/headlessui->reagent ui/Dialog.Panel))
+(def dialog-backdrop (utils/headlessui->reagent ui/Dialog.Backdrop))
 
 (def popover (utils/headlessui->reagent ui/Popover))
 (def popover-overlay (utils/headlessui->reagent ui/Popover.Overlay))

@@ -232,6 +232,10 @@
              :leave "ease-in duration-200"
              :leave-from "opacity-100 scale-100"
              :leave-to "opacity-0 scale-95"}
+            ;; NOTE: if your dialog is long and you need to support scrolling
+            ;; while the mouse is over the background, wrap this with
+            ;; `ui/dialog-panel` and replace `ui/dialog-overlay` with
+            ;; `ui/dialog-backdrop`.
             [:div.max-w-md.p-6.my-8.bg-white.shadow-xl.rounded-2xl
              [ui/dialog-title {:as :div.text-lg.font-medium.leading-6.text-gray-900}
               "Payment successful"]
