@@ -6,7 +6,7 @@
 
 (def ^:private lib 'com.github.mainej/headlessui-reagent)
 (def ^:private rev-count (Integer/parseInt (b/git-count-revs nil)))
-(def ^:private headlessui-react-version "1.6.0")
+(def ^:private headlessui-react-version "1.6.1")
 (defn- format-version [revision] (str headlessui-react-version "." revision))
 (def ^:private version (format-version rev-count))
 (def ^:private next-version (format-version (inc rev-count)))
@@ -37,8 +37,11 @@
     (die "\nCouldn't sync with github."))
   params)
 
+(defn- occurrence-count [filename s]
+  (count (re-seq (re-pattern s) (slurp filename))))
+
 (defn- assert-changelog-updated [params]
-  (let [occurrences (count (re-seq (re-pattern version) (slurp "CHANGELOG.md")))]
+  (let [occurrences (occurrence-count "CHANGELOG.md" version)]
     (when (< occurrences 4)
       (die (string/join "\n"
                         ["CHANGELOG.md must include version at least 4 times, but saw it %s times."
@@ -48,12 +51,20 @@
   params)
 
 (defn- assert-package-json-updated [params]
-  (when-not (string/includes? (slurp "package.json") version)
+  (when (zero? (occurrence-count "package.json" version))
     (die (string/join "\n"
                       ["package.json must include version."
                        "  * If you will amend the current commit, use %s"
                        "  * If you intend to create a new commit, use %s"])
          version next-version))
+  (let [occurrences (occurrence-count "package-lock.json" version)]
+    (when (< occurrences 2)
+      (die (string/join "\n"
+                        ["package-lock.json must include version at least twice, but saw it %s times."
+                         "  * If you will amend the current commit, use %s"
+                         "  * If you intend to create a new commit, use %s"
+                         "Run `npm install`"])
+           occurrences version next-version)))
   params)
 
 (defn- assert-scm-clean [params]

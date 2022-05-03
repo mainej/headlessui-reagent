@@ -5,6 +5,9 @@ change log follows the conventions of
 
 ## [Unreleased]
 
+## [1.6.1.63]
+- Upgraded to @headlessui/react 1.6.1
+
 ## [1.6.0.62]
 ### Changed
 - Upgraded to @headlessui/react 1.6.0
@@ -93,7 +96,8 @@ Update clojars with more repository information.
 ### Added
 - Reagent interop with @headlessui/react for Disclosure, Transition and FocusTrap
 
-[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v1.6.0.62...main
+[Unreleased]: https://github.com/mainej/headlessui-reagent/compare/v1.6.1.63...main
+[1.6.1.63]: https://github.com/mainej/headlessui-reagent/compare/v1.6.0.62...v1.6.1.63
 [1.6.0.62]: https://github.com/mainej/headlessui-reagent/compare/v1.5.0.47...v1.6.0.62
 [1.5.0.47]: https://github.com/mainej/headlessui-reagent/compare/v1.4.3.46...v1.5.0.47
 [1.4.3.46]: https://github.com/mainej/headlessui-reagent/compare/v1.4.3.44...v1.4.3.46

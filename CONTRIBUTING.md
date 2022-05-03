@@ -24,7 +24,7 @@ of 0.
 It will check that you have done the following things:
 
 1. Proactively updated CHANGELOG.md
-2. Proactively updated package.json
+2. Proactively updated package.json and ran `npm install`
 3. Commited
 4. Tagged commit
 
