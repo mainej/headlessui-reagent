@@ -1,6 +1,13 @@
 # Contributing
 
-TODO: establish contributing guidelines here.
+Bug reports and contributions are welcome. Before starting work, please open an
+[issue](https://github.com/mainej/headlessui-reagent/issues) to discuss the
+problem you are trying to solve.
+
+As you make changes, you can test them in the example project. Find instructions
+for running it in its [README](example/README.md).
+
+Other common development tasks are described here.
 
 ## Upgrading @headlessui/react
 
