@@ -1,1 +1,1 @@
-{:npm-deps { "@headlessui/react" "^1.6.2"}}
+{:npm-deps { "@headlessui/react" "^1.6.3"}}

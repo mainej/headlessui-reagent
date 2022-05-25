@@ -6,7 +6,7 @@
 
 (def ^:private lib 'com.github.mainej/headlessui-reagent)
 (def ^:private rev-count (Integer/parseInt (b/git-count-revs nil)))
-(def ^:private headlessui-react-version "1.6.2")
+(def ^:private headlessui-react-version "1.6.3")
 (defn- format-version [revision] (str headlessui-react-version "." revision))
 (def ^:private version (format-version rev-count))
 (def ^:private next-version (format-version (inc rev-count)))
