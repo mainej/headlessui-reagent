@@ -3,3 +3,8 @@
 set -Eeuo pipefail
 
 clojure -T:build release
+
+echo
+echo "Don't forget to cut a release on GitHub."
+
+open "https://github.com/mainej/headlessui-reagent/tags"

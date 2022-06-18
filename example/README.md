@@ -1,6 +1,8 @@
 # `headlessui-reagent` in use
 
-This directory contains an example of headless-reagent in use.
+This directory contains an example of headlessui-reagent in use. The components
+are styled with Tailwind CSS, but that's not a requirement of headlessui-reagent,
+which will work with any styling system.
 
 The code is in [src/main/all_examples.cljs](src/main/all_examples.cljs).
 

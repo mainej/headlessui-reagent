@@ -23,7 +23,8 @@ releases were built with `@headlessui/react` `1.0.0`.
 ## Usage
 
 Usage follows the Headless UI API. For example, to use a
-[Disclosure][headlessui-disclosure] in Reagent:
+[Disclosure][headlessui-disclosure] in Reagent, with Tailwind CSS (though any
+styling system will work):
 
 ```clojure
 (require '[headlessui-reagent.core :as ui])
@@ -39,10 +40,27 @@ To see each of the components in action, check out the [examples](/example).
 
 ### Styling the active item
 
-To conditionally apply markup or styles based on the component's state, Headless
-UI provides ["render props"][render-props].
+To conditionally apply markup or styles based on the component's state, you have
+a few choices.
 
-As with Headless UI, if the Reagent component is given a single function as a
+First, if you're using Headless UI with Tailwind CSS, as many people do,
+consider using the
+[@headlessui/tailwindcss](https://github.com/tailwindlabs/headlessui/tree/main/packages/%40headlessui-tailwindcss)
+plugin. That'll let you target specific UI states with plain CSS classes.
+
+```clojure
+[ui/menu
+  [ui/menu-button "More"]
+  [ui/menu-items
+   [ui/menu-item
+    [:a.ui-active:bg-blue-500.ui-active:text-white.ui-not-active:bg-white.ui-not-active:text-black
+     {:href "/account-settings"}
+     "Account Settings"]]
+   ,,,]]
+```
+
+For a more programmatic approach, Headless UI provides ["render
+props"][render-props]. If the Reagent component is given a single function as a
 child, the function is called with a hash map of render props (e.g. `:open` for
 a Disclosure). The return value of the function, which should be a single
 (hiccup-style) component, will be rendered.
